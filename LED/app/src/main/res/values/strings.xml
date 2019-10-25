@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">LED</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_led_control">ledControl</string>
+    <string name="pref_title">ledColor</string>
+
+    <string name="pattern_prompt">Choose a pattern</string>
+    <string-array name="pattern_list">
+        <item>Strobe</item>
+        <item>Chase</item>
+        <item>Loading</item>
+        <item>Random</item>
+    </string-array>
+
+    <string name="chase_number_prompt">Number of leds for chase</string>
+    <string-array name="chase_number_list">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+    </string-array>
+
+    <string name="strobe_mode_prompt">Strobe mode</string>
+    <string-array name="strobe_mode_list">
+        <item>Full</item>
+        <item>Pause</item>
+        <item>Random</item>
+    </string-array>
+</resources>
