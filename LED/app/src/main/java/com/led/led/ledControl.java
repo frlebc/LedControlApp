@@ -15,14 +15,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ProgressDialog;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import android.util.Log;
+
 
 public class ledControl extends ActionBarActivity {
 
     Button btnOn, btnOff, btnDis, btnColor, btnPattern, btnPoweroff, btnReboot;
     SeekBar speed;
-    TextView lumn;
+    TextView lumn, temp;
     private ProgressDialog progress;
     BluetoothProtocol proto;
+
+    TimerTask timer= new TimerTask(){
+
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    //Show.setText(hours + ":" + minutes + ":" + seconds);
+                    String msg = BluetoothManager.getInstance().Read();
+                    if (!msg.isEmpty()) {
+                        temp.setText("Temperature: " + proto.decodeTemperature(msg) + " °C");
+                        Log.d("Received: ", msg);
+                    }
+                }
+            });
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,12 +68,16 @@ public class ledControl extends ActionBarActivity {
         btnDis = (Button)findViewById(R.id.button4);
         speed = (SeekBar)findViewById(R.id.seekBar);
         lumn = (TextView)findViewById(R.id.lumn);
+        temp = (TextView)findViewById(R.id.textViewTemperature);
         btnColor = (Button)findViewById(R.id.button6);
         btnPattern = (Button)findViewById(R.id.buttonPattern);
         btnPoweroff = (Button)findViewById(R.id.buttonPoweroff);
         btnReboot = (Button)findViewById(R.id.buttonReboot);
-
         progress = ProgressDialog.show(ledControl.this, "Connecting...", "Please wait!!!");  //show a progress dialog
+
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(timer , 0 , 100);
+
         try {
             BluetoothManager.getInstance().Connect();
             msg("Connected.");

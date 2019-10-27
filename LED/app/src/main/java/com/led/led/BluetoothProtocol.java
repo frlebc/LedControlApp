@@ -95,4 +95,13 @@ public class BluetoothProtocol implements Serializable {
     {
         BluetoothManager.getInstance().Write("rpi.reboot");
     }
+
+    public String decodeTemperature(String msg)
+    {
+        if (msg.startsWith("temp."))
+        {
+            return msg.substring(msg.indexOf(".") + 1);
+        }
+        return "Error";
+    }
 }

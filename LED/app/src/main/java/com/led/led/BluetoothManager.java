@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -73,6 +74,21 @@ public class BluetoothManager {
                 throw new RuntimeException("Error in write");
             }
         }
+    }
+
+    public String Read()
+    {
+        byte[] buffer = new byte[1024];
+        int bytes = 0;
+        try {
+            InputStream is = btSocket.getInputStream();
+            bytes = is.read(buffer, 0, is.available());
+        }
+        catch (IOException e)
+        {
+            //throw new RuntimeException("Error in read");
+        }
+        return new String(buffer, 0, bytes);
     }
 
     private class ConnectBT extends AsyncTask<Void, Void, Void>  // UI thread
