@@ -23,7 +23,13 @@ public class BluetoothProtocol implements Serializable {
 
     public void SetSpeed(float speedFactor)
     {
-        String cmd = new StringBuilder("speed.").append(String.valueOf(speedFactor)).toString();
+        String cmd = new StringBuilder("speed.").append(speedFactor).toString();
+        BluetoothManager.getInstance().Write(cmd);
+    }
+
+    public void SetIntensity(float intensityFactor)
+    {
+        String cmd = new StringBuilder("int.").append(intensityFactor).toString();
         BluetoothManager.getInstance().Write(cmd);
     }
 

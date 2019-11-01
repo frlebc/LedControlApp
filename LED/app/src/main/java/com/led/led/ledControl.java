@@ -24,8 +24,8 @@ import android.util.Log;
 public class ledControl extends ActionBarActivity {
 
     Button btnOn, btnOff, btnDis, btnColor, btnPattern, btnPoweroff, btnReboot;
-    SeekBar speed;
-    TextView lumn, temp;
+    SeekBar speed, intensity;
+    TextView lumn, temp, textIntensity;
     private ProgressDialog progress;
     BluetoothProtocol proto;
 
@@ -67,7 +67,9 @@ public class ledControl extends ActionBarActivity {
         btnOff = (Button)findViewById(R.id.button3);
         btnDis = (Button)findViewById(R.id.button4);
         speed = (SeekBar)findViewById(R.id.seekBar);
+        intensity = (SeekBar)findViewById(R.id.seekBarInt);
         lumn = (TextView)findViewById(R.id.lumn);
+        textIntensity = (TextView)findViewById(R.id.textInt);
         temp = (TextView)findViewById(R.id.textViewTemperature);
         btnColor = (Button)findViewById(R.id.button6);
         btnPattern = (Button)findViewById(R.id.buttonPattern);
@@ -221,6 +223,39 @@ public class ledControl extends ActionBarActivity {
                 {
                     float value = convertProgressValue(speed.getProgress());
                     proto.SetSpeed(value);
+                }
+                catch (RuntimeException e)
+                {
+                    msg("Failed to set speed");
+                }
+            }
+        });
+
+        intensity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            private float convertProgressValue(int progress) {
+
+                return progress / 255.f;
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser==true)
+                {
+                    textIntensity.setText(String.format("%.02f", convertProgressValue(progress)));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                try
+                {
+                    float value = convertProgressValue(intensity.getProgress());
+                    proto.SetIntensity(value);
                 }
                 catch (RuntimeException e)
                 {
